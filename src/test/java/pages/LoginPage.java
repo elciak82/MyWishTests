@@ -12,6 +12,7 @@ public class LoginPage extends GenericPage {
         super(driver);
         PageFactory.initElements(driver, this);
     }
+
     @FindBy(xpath = ("//button[@class='app-tab'][1]"))
     WebElement loginButton;
 
@@ -21,17 +22,26 @@ public class LoginPage extends GenericPage {
     @FindBy(css = ("[type='checkbox']"))
     WebElement regulationsCheckbox;
 
-    @FindBy(id = ("[id='Login']"))
-    WebElement loginInput;
+    @FindBy(id = ("Login"))
+    WebElement login;
 
+    @FindBy(css = ("[alt='App logo']"))
+    WebElement appLogo;
 
-    public void loginButtonClick(){
+    @FindBy(xpath = ("//*[@id=\"root\"]/div/div[2]/div/div[2]/div[2]/div/div/div[1]/div/form/span[2]/div[2]/div/input"))
+    WebElement password;
+
+    @FindBy(css = ("[type='submit']"))
+    WebElement submitButton;
+
+    public void loginButtonClick() {
         loginButton.click();
     }
 
     public void registrationButtonClick() {
         registrationButton.click();
     }
+
     public LoginPage deselectRegulations() {
         if (regulationsCheckbox.isSelected()) ;
         regulationsCheckbox.click();
@@ -44,12 +54,30 @@ public class LoginPage extends GenericPage {
         return this;
     }
 
-    public void inputUserLogin(String userLogin){
-        loginInput.sendKeys(userLogin);
+    private void inputUserLogin(String userLogin) {
+        login.click();
+        login.sendKeys(userLogin);
     }
 
-//    private void inputUserPassword(String userPassword);
-//        passwordInput.sendKeys(userLogin);
+    private void inputUserPassword(String userPassword) {
+        password.click();
+        password.sendKeys(userPassword);
+    }
 
+    private void clickSubmitButton() {
+        GenericPage genericPage = new GenericPage(driver);
+        genericPage.fluentWaitForElementDisplayed(submitButton);
+        submitButton.click();
+    }
 
+    public void loggingInToApp (String login, String password) {
+        inputUserLogin(login);
+        inputUserPassword(password);
+        clickSubmitButton();
+    }
+
+    public void waitForAppLogo(){
+        GenericPage genericPage = new GenericPage(driver);
+        genericPage.fluentWaitForElementDisplayed(appLogo);
+    }
 }

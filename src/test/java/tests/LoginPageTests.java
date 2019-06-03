@@ -24,6 +24,7 @@ public class LoginPageTests implements LoginPageData {
         this.genericPage = new GenericPage(driver);
         this.loginPage = new LoginPage(driver);
         this.suffix = genericPage.generateAlphaNumeric(5);
+        loginPage.waitForAppLogo();
     }
 
     @Test
@@ -34,11 +35,7 @@ public class LoginPageTests implements LoginPageData {
 
     @Test
     public void login_correctData() {
-        String correctUserLogin = LoginPageData.CORRECT_USER_NAME;
-//        String correctUserPassword = NEW_PASSWORD + suffix;
-
-        loginPage.inputUserLogin(correctUserLogin);
-
+        loginPage.loggingInToApp(CORRECT_LOGIN, CORRECT_PASSWORD);
     }
 
     @AfterTest
